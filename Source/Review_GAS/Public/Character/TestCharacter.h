@@ -7,6 +7,8 @@
 #include "AbilitySystemInterface.h"
 #include "TestCharacter.generated.h"
 
+class UResourceAttributeSet;
+
 UCLASS()
 class REVIEW_GAS_API ATestCharacter : public ACharacter, public IAbilitySystemInterface
 {
@@ -32,4 +34,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
 
+private:
+	UPROPERTY()
+	TObjectPtr<UResourceAttributeSet> ResourceAttributeSet = nullptr;
 };

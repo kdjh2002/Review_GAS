@@ -3,6 +3,7 @@
 
 #include "Character/TestCharacter.h"
 #include "AbilitySystemComponent.h"
+#include "GameAbilitySystem/ResourceAttributeSet.h"
 
 // Sets default values
 ATestCharacter::ATestCharacter()
@@ -11,8 +12,10 @@ ATestCharacter::ATestCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	//어빌리티 컴포넌트 생성
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>("AbilitySystemComponent");
+	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 
+	//어트리뷰트 셋 생성
+	ResourceAttributeSet = CreateDefaultSubobject<UResourceAttributeSet>(TEXT("Resource"));
 }
 
 // Called when the game starts or when spawned
