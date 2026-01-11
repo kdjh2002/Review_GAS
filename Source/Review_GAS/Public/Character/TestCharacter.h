@@ -5,36 +5,53 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AbilitySystemInterface.h"
+#include "GameplayEffectTypes.h"
 #include "TestCharacter.generated.h"
 
-class UResourceAttributeSet;
+class UPlayerAttributeSet;
+class UEnemyAttributeSet;
+class UWidgetComponent;
 
 UCLASS()
-class REVIEW_GAS_API ATestCharacter : public ACharacter, public IAbilitySystemInterface
+class REVIEW_GAS_API AGasCharacter : public ACharacter, public IAbilitySystemInterface
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
-	ATestCharacter();
-
-	//이 함수를 쓰기 위해서 IAbiliySystemInterface를 상속
-	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override {
-		return AbilitySystemComponent;
-
-	}
-
+	AGasCharacter();
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; };
 
 protected:
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Ability")
-	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent = nullptr;
+	void OnFireballInput();
 
-private:
+	// UI 업데이트용 콜백
+	void OnManaChange(const FOnAttributeChangeData& InData);
+	void OnHealthChange(const FOnAttributeChangeData& InData);
+
+public:
+	UPROPERTY(EditAnywhere, Category = "GAS")
+	TSubclassOf<class UGameplayAbility> FireballAbilityClass;
+
+	UPROPERTY(EditAnywhere, Category = "GAS")
+	TSubclassOf<class UGameplayEffect> DefaultAttributeEffect;
+
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "GAS")
+	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
+
+	// 요구사항 대로 각각 선언
 	UPROPERTY()
-	TObjectPtr<UResourceAttributeSet> ResourceAttributeSet = nullptr;
+	TObjectPtr<UPlayerAttributeSet> PlayerAttributeSet;
+
+	UPROPERTY()
+	TObjectPtr<UEnemyAttributeSet> EnemyAttributeSet;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<UWidgetComponent> HealthWidgetComp;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	TObjectPtr<class UInputAction> IA_Fire;
 };

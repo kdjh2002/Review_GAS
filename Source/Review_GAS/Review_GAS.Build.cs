@@ -8,7 +8,9 @@ public class Review_GAS : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] {
+            "Core", "CoreUObject", "Engine", "InputCore",
+            "EnhancedInput", "Niagara" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] { 
 			"GameplayAbilities", "GameplayTags", "GameplayTasks",
